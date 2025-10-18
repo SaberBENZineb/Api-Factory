@@ -13,7 +13,7 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
 
     @Query("SELECT c FROM Contract c " +
             "WHERE c.client.id = :clientId AND c.endDate > :currentDate")
-    List<Contract> findByClientIdAndActive(@Param("clientId") Long clientId,@Param("currentDate") LocalDate now);
+    List<Contract> findByClientIdAndActiveContract(@Param("clientId") Long clientId,@Param("currentDate") LocalDate now);
 
     @Query("SELECT COALESCE(SUM(c.costAmount), 0) FROM Contract c " +
             "WHERE c.client.id = :clientId AND c.endDate > :currentDate")

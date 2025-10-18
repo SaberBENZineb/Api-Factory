@@ -46,10 +46,13 @@ public class ContractService {
         return contractMapper.toContractDTO(savedContract);
     }
 
-    public List<ContractDTO> getActiveContractsForClient(Long clientId) {
+    public List<ContractDTO> getActiveContractsForClient(Long clientId, LocalDate updatedAt) {
         clientRepository.findByIdAndActiveTrue(clientId)
                 .orElseThrow(() -> new NotFoundException("Client not found or not active with id: " + clientId));
-        List<Contract> contracts=contractRepository.findByClientIdAndActive(clientId, LocalDate.now());
+        // if the updatedAt passed in the RequestParam will filter by update date < endDate
+        // else will return only the active contracts (current date < end date)
+        LocalDate date = updatedAt != null ? updatedAt : LocalDate.now();
+        List<Contract> contracts=contractRepository.findByClientIdAndActiveContract(clientId, date);
         return contracts.stream().map(contractMapper::toContractDTO).toList();
     }
 
