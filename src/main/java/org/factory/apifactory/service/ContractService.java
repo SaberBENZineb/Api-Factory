@@ -1,7 +1,6 @@
 package org.factory.apifactory.service;
 
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.factory.apifactory.dto.Contract.ContractDTO;
 import org.factory.apifactory.exception.NotFoundException;
 import org.factory.apifactory.mapper.Contract.ContractMapper;
@@ -10,7 +9,6 @@ import org.factory.apifactory.model.Contract.Contract;
 import org.factory.apifactory.repository.ClientRepository;
 import org.factory.apifactory.repository.ContractRepository;
 import org.factory.apifactory.request.Contract.ContractCreateRequest;
-import org.factory.apifactory.request.Contract.ContractUpdateRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -39,9 +37,9 @@ public class ContractService {
         return contractMapper.toContractDTO(savedContract);
     }
 
-    public ContractDTO updateContract(Long contractId, @Valid ContractUpdateRequest contractUpdateRequest) {
+    public ContractDTO updateContract(Long contractId, BigDecimal costAmount) {
         Contract contract= contractRepository.findById(contractId).orElseThrow(() -> new NotFoundException(String.format("Contact %d not found", contractId)));
-        contract.setCostAmount(contractUpdateRequest.getCostAmount());
+        contract.setCostAmount(costAmount);
         Contract savedContract=contractRepository.save(contract);
         return contractMapper.toContractDTO(savedContract);
     }
