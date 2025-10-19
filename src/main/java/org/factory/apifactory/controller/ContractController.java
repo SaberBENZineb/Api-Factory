@@ -5,10 +5,12 @@ import org.factory.apifactory.dto.Contract.ContractDTO;
 import org.factory.apifactory.request.Contract.ContractCreateRequest;
 import org.factory.apifactory.request.Contract.ContractUpdateRequest;
 import org.factory.apifactory.service.ContractService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +35,8 @@ public class ContractController {
     }
 
     @GetMapping("/{clientId}/active-contracts")
-    public ResponseEntity<List<ContractDTO>> getActiveContractsForClient(@PathVariable Long clientId) {
-        return ResponseEntity.ok(contractService.getActiveContractsForClient(clientId));
+    public ResponseEntity<List<ContractDTO>> getActiveContractsForClient(@PathVariable Long clientId, @RequestParam(required = false) @Valid @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate updatedAt) {
+        return ResponseEntity.ok(contractService.getActiveContractsForClient(clientId,updatedAt));
     }
 
     @GetMapping("/{clientId}/active-contracts/total-cost")
