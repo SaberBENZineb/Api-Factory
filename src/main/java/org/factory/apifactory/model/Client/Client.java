@@ -3,6 +3,7 @@ package org.factory.apifactory.model.Client;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -29,5 +30,6 @@ public abstract class Client {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Contract> contracts = new ArrayList<>();
 }

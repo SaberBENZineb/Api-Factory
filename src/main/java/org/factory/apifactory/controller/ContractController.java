@@ -1,9 +1,9 @@
 package org.factory.apifactory.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.factory.apifactory.dto.Contract.ContractDTO;
 import org.factory.apifactory.request.Contract.ContractCreateRequest;
-import org.factory.apifactory.request.Contract.ContractUpdateRequest;
 import org.factory.apifactory.service.ContractService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +30,8 @@ public class ContractController {
     }
 
     @PutMapping("/{contractId}")
-    public ResponseEntity<ContractDTO> updateContract(@PathVariable Long contractId, @Valid ContractUpdateRequest contractUpdateRequest) {
-        return ResponseEntity.ok(contractService.updateContract(contractId, contractUpdateRequest));
+    public ResponseEntity<ContractDTO> updateContract(@PathVariable Long contractId, @Valid @Positive(message = "Cost amount must be positive") @RequestParam BigDecimal costAmount) {
+        return ResponseEntity.ok(contractService.updateContract(contractId, costAmount));
     }
 
     @GetMapping("/{clientId}/active-contracts")

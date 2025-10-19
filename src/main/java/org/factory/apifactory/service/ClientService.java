@@ -67,7 +67,7 @@ public class ClientService {
     }
 
     public ClientDTO activateClient(Long clientId) {
-        Client client = clientRepository.findById(clientId).orElseThrow(() -> new NotFoundException(String.format("Client %d not found or not active", clientId)));
+        Client client = clientRepository.findById(clientId).orElseThrow(() -> new NotFoundException(String.format("Client %d not found", clientId)));
         client.setActive(true);
         Client savedClient=clientRepository.save(client);
         return clientDTOFactoryService.createClientDTO(savedClient);
